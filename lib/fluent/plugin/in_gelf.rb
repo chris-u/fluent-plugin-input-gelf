@@ -78,9 +78,9 @@ module Fluent::Plugin
         if @trust_client_timestamp
           # Use the recorded event time if available
           if @client_timestamp_to_i
-            time = record('timestamp').to_i if record.key?('timestamp') 
+            time = record['timestamp'].to_i if record.key?('timestamp') 
           else
-            time = record('timestamp').to_f if record.key?('timestamp') 
+            time = record['timestamp'].to_f if record.key?('timestamp') 
           end
           record.delete('timestamp') if record.key?('timestamp') && @remove_timestamp_record
         else
