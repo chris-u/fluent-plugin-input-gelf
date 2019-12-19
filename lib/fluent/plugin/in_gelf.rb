@@ -34,6 +34,8 @@ module Fluent::Plugin
     config_param :remove_timestamp_record, :bool, default: true
     desc 'use client provided timestamp'
     config_param :trust_client_timestamp, :bool, default: true
+    desc 'truncate client timestamp to integer'
+    config_param :client_timestamp_to_i, :bool, default: false
 
     config_section :parse do
       config_set_default :@type, DEFAULT_PARSER
@@ -75,8 +77,12 @@ module Fluent::Plugin
 
         if @trust_client_timestamp
           # Use the recorded event time if available
-          time = record('timestamp').to_f if record.key?('timestamp')
-          record.delete('timestamp').to_f if record.key?('timestamp') && @remove_timestamp_record
+          if @client_timestamp_to_i
+            time = record('timestamp').to_i if record.key?('timestamp') 
+          else
+            time = record('timestamp').to_f if record.key?('timestamp') 
+          end
+          record.delete('timestamp') if record.key?('timestamp') && @remove_timestamp_record
         else
           time = Fluent::EventTime.now
         end
