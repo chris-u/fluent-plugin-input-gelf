@@ -75,14 +75,16 @@ module Fluent::Plugin
           return
         end
 
-        if @trust_client_timestamp
+        if @trust_client_timestamp && record.key?('timestamp')
           # Use the recorded event time if available
           if @client_timestamp_to_i
-            time = record['timestamp'].to_i if record.key?('timestamp') 
+            time = record['timestamp'].to_i
           else
-            time = record['timestamp'].to_f if record.key?('timestamp') 
+            seconds = record['timestamp'].to_i
+            nsec = ((record['timestamp'].to_f  - record['timestamp'].to_i)  * 1_000_000_000).to_i
+            time = Fluent::EventTime.new(seconds, nsec)
           end
-          record.delete('timestamp') if record.key?('timestamp') && @remove_timestamp_record
+          record.delete('timestamp') if @remove_timestamp_record
         else
           time = Fluent::EventTime.now
         end
