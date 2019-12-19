@@ -30,6 +30,8 @@ module Fluent::Plugin
     config_param :protocol_type, :enum, list: [:udp, :tcp], default: :udp
     desc 'Strip leading underscore'
     config_param :strip_leading_underscore, :bool, default: true
+    desc 'use client provided timestamp'
+    config_param :trust_client_timestamp, :bool, default: true
 
     config_section :parse do
       config_set_default :@type, DEFAULT_PARSER
@@ -69,8 +71,10 @@ module Fluent::Plugin
           return
         end
 
-        # Use the recorded event time if available
-        time = record.delete('timestamp').to_f if record.key?('timestamp')
+        if @trust_client_timestamp
+          # Use the recorded event time if available
+          time = record.delete('timestamp').to_f if record.key?('timestamp')
+        else
 
         # Postprocess recorded event
         strip_leading_underscore_(record) if @strip_leading_underscore
