@@ -75,6 +75,8 @@ module Fluent::Plugin
           # Use the recorded event time if available
           time = record.delete('timestamp').to_f if record.key?('timestamp')
         else
+          time = Fluent::EventTime.now
+        end
 
         # Postprocess recorded event
         strip_leading_underscore_(record) if @strip_leading_underscore
