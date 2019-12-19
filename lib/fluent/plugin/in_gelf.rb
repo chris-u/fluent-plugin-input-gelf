@@ -30,6 +30,8 @@ module Fluent::Plugin
     config_param :protocol_type, :enum, list: [:udp, :tcp], default: :udp
     desc 'Strip leading underscore'
     config_param :strip_leading_underscore, :bool, default: true
+    desc 'remove timestamp record from document'
+    config_param :remove_timestamp_record, :bool, default: true
     desc 'use client provided timestamp'
     config_param :trust_client_timestamp, :bool, default: true
 
@@ -73,7 +75,8 @@ module Fluent::Plugin
 
         if @trust_client_timestamp
           # Use the recorded event time if available
-          time = record.delete('timestamp').to_f if record.key?('timestamp')
+          time = record('timestamp').to_f if record.key?('timestamp')
+          record.delete('timestamp').to_f if record.key?('timestamp') && @remove_timestamp_record
         else
           time = Fluent::EventTime.now
         end
