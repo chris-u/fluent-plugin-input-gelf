@@ -41,7 +41,7 @@ Accept GELF encoded messages over UDP
     * tcp
 
   * trust_client_timestamp (default: true)
-    * true  (use client provided timestamp, if it exists, for fluent metadata)
+    * true  (use client provided timestamp for fluent metadata if it exists)
     * false (ignore client provided timestamp for fluent metadata)
 
     * client_timestamp_to_i (default: false) (ignored if trust_client_timestamp is false)
