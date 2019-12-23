@@ -33,6 +33,7 @@ Accept GELF encoded messages over UDP
   path /tmp/output
 </match>
 
+```
 
 ### Configuration flags
   * protocol_type   
@@ -51,4 +52,3 @@ Accept GELF encoded messages over UDP
       * true  (remove original timestamp record from client provided document)
       * false (retain original record and set fluent metadata time
 
-```
