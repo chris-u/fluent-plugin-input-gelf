@@ -76,19 +76,18 @@ module Fluent::Plugin
         end
 
         if @trust_client_timestamp && record.key?('timestamp')
-          seconds = record['timestamp'].to_i
           # Fluent "time" is made up of 2 records; time_t and nsec; you can't cast a float
           # to time; instead you must convert the remainder to a nsec INT.
-
-          if @client_timestamp_to_f
+          seconds = record['timestamp'].to_i
+          if @client_timestamp_to_i
+            time = Fluent::EventTime.new(seconds)
+          else
             nsec = ((record['timestamp'].to_f  - record['timestamp'].to_i)  * 1_000_000_000).to_i
             time = Fluent::EventTime.new(seconds, nsec)
-          else
-            time = Fluent::EventTime.new(seconds)
           end
-
           record.delete('timestamp') if @remove_timestamp_record
         else
+          # if not trusting client timestamp or no timestamp provided
           time = Fluent::EventTime.now
         end
 
