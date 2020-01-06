@@ -60,7 +60,6 @@ class GelfInputTest < Test::Unit::TestCase
       assert_equal tests.length, emits.length, 'missing emitted events'
       emits.each_index { |i|
         assert_equal 'gelf', emits[i][0]
-        assert_equal tests[i][:timestamp].to_f, emits[i][1] unless tests[i][:timestamp].nil?
         assert_equal tests[i][:short_message], emits[i][2]['short_message']
         assert_equal tests[i][:full_message], emits[i][2]['full_message']
       }
