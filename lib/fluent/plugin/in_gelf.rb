@@ -84,7 +84,7 @@ module Fluent::Plugin
           else
             #nsec = ((record['timestamp'].to_f  - record['timestamp'].to_i)  * 1_000_000_000).to_i
             seconds, nsec = record['timestamp'].to_s.split('.')
-            nsec = nsec.ljust(10,"0")
+            nsec = nsec.to_s.ljust(9,"0")
             time = Fluent::EventTime.new(seconds.to_i, nsec.to_i)
           end
           record.delete('timestamp') if @remove_timestamp_record
