@@ -80,15 +80,15 @@ module Fluent::Plugin
           # to time; instead you must convert the remainder to a nsec INT.
           seconds = record['timestamp'].to_i
           if @client_timestamp_to_i
-            time = Fluent::EventTime.new(seconds)
+            seconds, _ = record[timestamp].to_s.split('.')map(&:to_i)
+            time = seconds
           else
-            nsec = ((record['timestamp'].to_f  - record['timestamp'].to_i)  * 1_000_000_000).to_i
-            time = Fluent::EventTime.new(seconds, nsec)
+            #nsec = ((record['timestamp'].to_f  - record['timestamp'].to_i)  * 1_000_000_000).to_i
+            seconds, nsec = record[timestamp].to_s.split('.')
+            nsec = nsec.ljust(10,"0")
+            time = Fluent::EventTime.new(seconds.to_i, nsec.to_i)
           end
           record.delete('timestamp') if @remove_timestamp_record
-        else
-          # if not trusting client timestamp or no timestamp provided
-          time = Fluent::EventTime.now
         end
 
         # Postprocess recorded event
