@@ -79,11 +79,11 @@ module Fluent::Plugin
           # Fluent "time" is made up of 2 records; time_t and nsec; you can't cast a float
           # to time; instead you must convert the remainder to a nsec INT.
           if @client_timestamp_to_i
-            seconds, _ = record[timestamp].to_s.split('.')
+            seconds, _ = record['timestamp'].to_s.split('.')
             time = seconds.to_i
           else
             #nsec = ((record['timestamp'].to_f  - record['timestamp'].to_i)  * 1_000_000_000).to_i
-            seconds, nsec = record[timestamp].to_s.split('.')
+            seconds, nsec = record['timestamp'].to_s.split('.')
             nsec = nsec.ljust(10,"0")
             time = Fluent::EventTime.new(seconds.to_i, nsec.to_i)
           end
