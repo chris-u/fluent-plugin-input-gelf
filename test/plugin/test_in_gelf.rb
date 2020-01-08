@@ -45,6 +45,7 @@ class GelfInputTest < Test::Unit::TestCase
 
       tests = [
         {:short_message => 'short message', :full_message => 'full message'},
+        {:short_message => 'short message', :full_message => 'full message', :timestamp => 12345678}
         {:short_message => 'short message', :full_message => 'full message', :timestamp => 12345678.12345}
       ]
 
