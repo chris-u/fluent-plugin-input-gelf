@@ -52,10 +52,10 @@ class GelfInputTest < Test::Unit::TestCase
       ]
 
       driver.run(expect_emits: 2)  do
-        n = GELF::Notifier.new(k, PORT)
+        notifier = GELF::Notifier.new(k, PORT)
 
         tests.each { |test|
-          n.notify!(test)
+          notifier.notify!(test)
         }
       end
 
@@ -97,10 +97,10 @@ class GelfInputTest < Test::Unit::TestCase
       ]
 
       driver.run(expect_emits: 1) do
-        n = GELF::Notifier.new(k, PORT)
+        notifier = GELF::Notifier.new(k, PORT)
 
         tests.each { |test|
-          n.notify!(test[:given])
+          notifier.notify!(test[:given])
         }
       end
 
