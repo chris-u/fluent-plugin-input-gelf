@@ -30,7 +30,7 @@ class GelfInputTest < Test::Unit::TestCase
   end
 
   def test_configure
-    configs = { '127.0.0.1' => CONFIG}
+    configs = {'127.0.0.1' => CONFIG}
     configs.merge!('::1' => IPv6_CONFIG) if ipv6_enabled?
 
     configs.each_pair { |k, v|
