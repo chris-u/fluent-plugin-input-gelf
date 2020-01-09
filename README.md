@@ -19,7 +19,6 @@ Accept GELF encoded messages over UDP or TCP
   port 12201
   # protocol_type            tcp   ##  (defaults to udp) 
   # trust_client_timestamp   false ##  (defaults to true)
-  # client_timestamp_to_i    true  ##  (defaults to false)
   # remove_timestamp_record  false ##  (defaults to true)
 </source>
 
@@ -44,11 +43,7 @@ Accept GELF encoded messages over UDP or TCP
     * true  (use client provided timestamp for fluent metadata if it exists)
     * false (ignore client provided timestamp for fluent metadata)
 
-    * client_timestamp_to_i (default: false) (ignored if trust_client_timestamp is false)
-      * true  (truncate client provided timestamp to only time_t with no added resolution)
-      * false (retain full client provided resolution)
-
-    * remove_timestamp_record (default: true) (ignored if trust_client_timestamp is false)
-      * true  (remove original timestamp record from client provided document)
-      * false (retain original record and set fluent metadata time
+  * remove_timestamp_record (default: true) (ignored if trust_client_timestamp is false)
+    * true  (remove original timestamp record from client provided document)
+    * false (retain original record and set fluent metadata time
 
