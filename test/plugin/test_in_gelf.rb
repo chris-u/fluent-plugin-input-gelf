@@ -84,6 +84,7 @@ class GelfInputTest < Test::Unit::TestCase
     configs.each_pair { |k, v|
       driver = create_driver(v)
 
+      # the string timestamps probably should not work but do
       tests = [
         {:short_message => 'short message', :full_message => 'no time'},
         {:short_message => 'short message', :full_message => 'time_t only', :timestamp => 1234567890},
