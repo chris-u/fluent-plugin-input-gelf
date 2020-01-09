@@ -78,14 +78,13 @@ module Fluent::Plugin
           second, subsecond = record['timestamp'].to_s.split('.')
           subsecond ||= 0 
           begin
-             if Integer(second) && Integer(subsecond)
-               nsec = subsecond.to_s.ljust(9,"0")
-               Fluent::EventTime.new(second.to_i, nsec.to_i)
-             end
+            if Integer(second) && Integer(subsecond)
+              nsec = subsecond.to_s.ljust(9,"0")
+              time = Fluent::EventTime.new(second.to_i, nsec.to_i)
+            end
           rescue 
             log.warn "inproperly formatted timestamp: #{msg.inspect}"
           end
-          time = Fluent::EventTime.new(second.to_i)
           record.delete('timestamp') if record.key?('timestamp') && @remove_timestamp_record
         end
 
