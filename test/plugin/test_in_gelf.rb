@@ -111,12 +111,10 @@ class GelfInputTest < Test::Unit::TestCase
         # has correct tag
         assert_equal 'gelf', emits[i][0]
         # has correct fluent metadata (Fluent::EventTime) time
-        #puts "data", tests[i][:timestamp].to_f
-        #puts "fluent", emits[i][1].inspect
         assert_equal tests[i][:timestamp].to_f, emits[i][1].to_f unless tests[i][:timestamp].nil?
         # has correct message data, short_message key
         assert_equal tests[i][:short_message], emits[i][2]['short_message']
-        # has correct message data, full message key
+        # has correct message data, full_message key
         assert_equal tests[i][:full_message], emits[i][2]['full_message']
       }
     }
@@ -162,12 +160,10 @@ class GelfInputTest < Test::Unit::TestCase
         # has correct tag
         assert_equal 'gelf', emits[i][0]
         # has correct fluent metadata (Fluent::EventTime) time
-        #puts "data", tests[i][:timestamp].to_f
-        #puts "fluent", emits[i][1].inspect
         assert_not_equal tests[i][:timestamp].to_f, emits[i][1].to_f
         # has correct message data, short_message key
         assert_equal tests[i][:short_message], emits[i][2]['short_message']
-        # has correct message data, full message key
+        # has correct message data, full_message key
         assert_equal tests[i][:full_message], emits[i][2]['full_message']
       }
     }
